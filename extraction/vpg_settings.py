@@ -1,5 +1,5 @@
 import pandas as pd
-from extraction.tables import clean_value
+from extraction.tables import clean_value, normalize_subnet_mask
 from datetime import datetime
 
 
@@ -97,8 +97,8 @@ def extract_default_vpg_settings(excel_file: str, print_output: bool = True) -> 
             data["failover_test_change_vnic_ip_config"] = unit
 
         elif key == "Subnet Mask":
-            data["failover_live_move_subnet_mask"] = value
-            data["failover_test_subnet_mask"] = unit
+            data["failover_live_move_subnet_mask"] = normalize_subnet_mask(value)
+            data["failover_test_subnet_mask"] = normalize_subnet_mask(unit)
 
         elif key == "Default Gateway":
             data["failover_live_move_default_gateway"] = value

@@ -1,7 +1,19 @@
 from datetime import date, datetime, time
+import ipaddress
 from typing import Any
 
 import pandas as pd
+
+
+VALID_SUBNET_MASKS_BY_DIGITS = {}
+
+for prefix_length in range(33):
+    network = ipaddress.IPv4Network(f"0.0.0.0/{prefix_length}")
+    subnet_mask = str(network.netmask)
+    digits = subnet_mask.replace(".", "")
+
+    VALID_SUBNET_MASKS_BY_DIGITS[digits] = subnet_mask
+    VALID_SUBNET_MASKS_BY_DIGITS[str(int(digits))] = subnet_mask
 
 
 def extract_sheet_table(
@@ -65,11 +77,19 @@ def clean_records(
     cleaned_records = []
 
     for index, record in enumerate(records):
-        cleaned_record = {
-            str(key).strip(): clean_value(value)
-            for key, value in record.items()
-            if key is not None and str(key).strip() != "nan"
-        }
+        cleaned_record = {}
+
+        for key, value in record.items():
+            if key is None or str(key).strip() == "nan":
+                continue
+
+            cleaned_key = str(key).strip()
+            cleaned_value = clean_value(value)
+
+            if cleaned_key.endswith("Subnet Mask"):
+                cleaned_value = normalize_subnet_mask(cleaned_value)
+
+            cleaned_record[cleaned_key] = cleaned_value
 
         if any(value is not None for value in cleaned_record.values()):
             if metadata:
@@ -104,3 +124,20 @@ def clean_value(value: Any) -> Any:
         return value.isoformat()
 
     return value
+
+
+def normalize_subnet_mask(value):
+    cleaned_value = clean_value(value)
+
+    if cleaned_value is None:
+        return None
+
+    if isinstance(cleaned_value, float) and cleaned_value.is_integer():
+        text = str(int(cleaned_value))
+    else:
+        text = str(cleaned_value).strip()
+
+    if "." in text:
+        return text
+
+    return VALID_SUBNET_MASKS_BY_DIGITS.get(text, text)

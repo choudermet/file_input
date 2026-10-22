@@ -118,7 +118,7 @@ def extract_default_vpg_settings(excel_file: str, print_output: bool = True) -> 
 
         elif key == "Run at (HH:MI)":
             if isinstance(row[1], datetime):
-                value = row[1].time().isoformat()
+                value = row[1].time().strftime("%H:%M")
             data["extended_journal_run_at"] = value
 
         elif key == "Number of automatic retry commands":

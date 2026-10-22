@@ -1,6 +1,6 @@
 from datetime import time
 from typing import Any, Literal
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, field_serializer, field_validator, model_validator
 import config
 
 
@@ -127,6 +127,10 @@ class DefaultVPGSettings(BaseModel):
     extended_journal_run_at: time
     extended_journal_retry_count: int
     extended_journal_wait_between_retries_minutes: int
+
+    @field_serializer("extended_journal_run_at")
+    def serialize_extended_journal_run_at(self, value: time) -> str:
+        return value.strftime("%H:%M")
 
     @field_validator("protected_site")
     @classmethod

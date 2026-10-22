@@ -9,7 +9,7 @@ from validation.error_formatting import WorkbookValidationError, validate_model_
 from validation.vpgs import validate_config_value
 
 
-Provisioning = Literal["Thin", "Thick"]
+Provisioning = Literal["Thin", "Thick", "EagerZeroedThick"]
 
 
 class ProtectedVM(BaseModel):

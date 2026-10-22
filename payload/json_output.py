@@ -137,7 +137,7 @@ def disk_provisioning_to_is_thin(value) -> bool | None:
     if cleaned_value == "Thin":
         return True
 
-    if cleaned_value == "Thick":
+    if cleaned_value in ("Thick", "EagerZeroedThick"):
         return False
 
     return None

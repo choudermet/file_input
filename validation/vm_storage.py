@@ -17,7 +17,7 @@ VolumeSyncType = Literal[
     "Initial Sync Only",
     "No Sync (Empty Disk)",
 ]
-Provisioning = Literal["Thin", "Thick"]
+Provisioning = Literal["Thin", "Thick", "EagerZeroedThick"]
 
 
 class VMStorage(BaseModel):

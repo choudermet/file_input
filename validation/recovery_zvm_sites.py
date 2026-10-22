@@ -1,6 +1,7 @@
 from typing import Any, Literal
 
 from pydantic import (
+    AliasChoices,
     BaseModel,
     ConfigDict,
     Field,
@@ -33,8 +34,8 @@ YesNo = Literal["Yes", "No"]
 DiskProvisioningOverride = Literal["As-is", "As-Is", "Thin", "Thick"]
 VnicIpConfigChange = Literal["No", "Yes, DHCP", "Yes, Static"]
 RECOVERY_ZVM_SITE_NETWORK_FIELDS = (
-    "Failover Live / Move Network Name",
-    "Failover Test Network Name",
+    "Failover Live / Move - Network Name",
+    "Failover Test - Network Name",
     "Failover Live / Move - Create new MAC address",
     "Failover Live / Move - Change vNIC IP Config",
     "Failover Live / Move - Subnet Mask",
@@ -177,11 +178,17 @@ class RecoveryZVMSite(BaseModel):
     )
     failover_live_move_network_name: str | None = Field(
         default=None,
-        validation_alias="Failover Live / Move Network Name",
+        validation_alias=AliasChoices(
+            "Failover Live / Move - Network Name",
+            "Failover Live / Move Network Name",
+        ),
     )
     failover_test_network_name: str | None = Field(
         default=None,
-        validation_alias="Failover Test Network Name",
+        validation_alias=AliasChoices(
+            "Failover Test - Network Name",
+            "Failover Test Network Name",
+        ),
     )
     recovery_folder_name: str | None = Field(
         default=None,

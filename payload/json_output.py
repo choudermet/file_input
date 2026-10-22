@@ -603,12 +603,14 @@ def resolve_vpg_defaults(
     resolve_field(
         resolved_row,
         "Failover Live / Move - Network Name",
+        recovery_defaults.get("Failover Live / Move - Network Name"),
         recovery_defaults.get("Failover Live / Move Network Name"),
     )
     resolve_field(
         resolved_row,
         "Failover Test - Network Name",
         resolved_row.get("Failover Test Network Name"),
+        recovery_defaults.get("Failover Test - Network Name"),
         recovery_defaults.get("Failover Test Network Name"),
     )
     resolve_field(

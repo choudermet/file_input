@@ -808,8 +808,8 @@ def print_recovery_zvm_sites_validation(sites: list) -> None:
             ),
             "Enable WAN Traffic Compression": site.enable_wan_traffic_compression,
             "Disk Provisioning Override": site.disk_provisioning_override,
-            "Failover Live / Move Network Name": site.failover_live_move_network_name,
-            "Failover Test Network Name": site.failover_test_network_name,
+            "Failover Live / Move - Network Name": site.failover_live_move_network_name,
+            "Failover Test - Network Name": site.failover_test_network_name,
             "Recovery Folder Name": site.recovery_folder_name,
             "Pre-Recovery Script Name": site.pre_recovery_script_name,
             "Pre-Recovery Script Parameters": site.pre_recovery_script_parameters,
@@ -906,7 +906,7 @@ def print_vpgs_validation(vpgs: list) -> None:
             "Failover Live / Move - Network Name": (
                 vpg.failover_live_move_network_name
             ),
-            "Failover Test Network Name": vpg.failover_test_network_name,
+            "Failover Test - Network Name": vpg.failover_test_network_name,
             "Recovery Folder Name": vpg.recovery_folder_name,
             "Pre-Recovery Script Name": vpg.pre_recovery_script_name,
             "Pre-Recovery Script Parameters": vpg.pre_recovery_script_parameters,

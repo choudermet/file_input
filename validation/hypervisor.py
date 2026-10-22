@@ -61,7 +61,7 @@ class ProtectedVMVolume(BaseModel):
 
         if value is None:
             raise ValueError(
-                "Protected ZVM site name is mandatory"
+                "Protected ZVM site name is mandatory. "
                 f"Valid values are: {config.protected_site_names}."
             )
         
@@ -250,6 +250,7 @@ def validate_hypervisor_data(data: dict) -> dict:
         except WorkbookValidationError as error:
             messages.extend(error.messages)
             validated_data[table_key] = []
+            break
 
     if messages:
         raise WorkbookValidationError(messages)

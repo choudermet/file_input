@@ -102,7 +102,7 @@ class ProtectedVMNIC(BaseModel):
     protected_zvm_site_name: str = Field(validation_alias="Protected ZVM Site Name")
     vm_name: str = Field(validation_alias="VM Name")
     nic_name: str = Field(validation_alias="NIC Name")
-    network_name: Any | None = Field(default=None, validation_alias="Network Name")
+    network_name: str = Field(validation_alias="Network Name")
 
     @field_validator("*", mode="before")
     @classmethod

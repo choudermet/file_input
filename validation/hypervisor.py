@@ -41,15 +41,13 @@ class ProtectedVMVolume(BaseModel):
     protected_zvm_site_name: str = Field(validation_alias="Protected ZVM Site Name")
     vm_name: str = Field(validation_alias="VM Name")
     volume_location: str = Field(validation_alias="Volume Location")
+    scsi_id: str = Field(validation_alias="SCSI ID")
     provisioned_size_gib: int = Field(
         ge=1,
         le=65536,
         validation_alias="Provisioned Size (GiB)",
     )
-    provisioning: Provisioning | None = Field(
-        default=None,
-        validation_alias="Provisioning",
-    )
+    provisioning: Provisioning = Field(validation_alias="Provisioning")
 
     @field_validator("*", mode="before")
     @classmethod

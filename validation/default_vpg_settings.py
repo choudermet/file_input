@@ -2,6 +2,10 @@ from datetime import time
 from typing import Any, Literal
 from pydantic import BaseModel, field_serializer, field_validator, model_validator
 import config
+from validation.vm_nics import (
+    is_valid_ipv4_address,
+    is_valid_ipv4_subnet_mask,
+)
 
 
 JournalSizeUnit = Literal["GiB", "%", "Unlimited"]
@@ -177,6 +181,36 @@ class DefaultVPGSettings(BaseModel):
     def validate_mandatory_value(cls, value):
         if value is None:
             raise ValueError("This value is mandatory")
+
+        return value
+
+    @field_validator(
+        "failover_live_move_subnet_mask",
+        "failover_test_subnet_mask",
+    )
+    @classmethod
+    def validate_ipv4_subnet_mask(cls, value):
+        if not is_valid_ipv4_subnet_mask(value):
+            raise ValueError(
+                "Valid values are: a valid IPv4 subnet mask."
+            )
+
+        return value
+
+    @field_validator(
+        "failover_live_move_default_gateway",
+        "failover_test_default_gateway",
+        "failover_live_move_preferred_dns_server",
+        "failover_test_preferred_dns_server",
+        "failover_live_move_alternate_dns_server",
+        "failover_test_alternate_dns_server",
+    )
+    @classmethod
+    def validate_ipv4_address(cls, value):
+        if not is_valid_ipv4_address(value):
+            raise ValueError(
+                "Valid values are: a valid IPv4 address."
+            )
 
         return value
 
